@@ -105,8 +105,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-data.json
 !.gitkeep
+
+templates
+data.json
 .idea
 vendor
 conf.ini
