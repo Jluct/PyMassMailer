@@ -3,11 +3,13 @@ from smtplib import SMTPDataError
 
 
 class SenderMail:
+    templating = ''
     sender = ''
     address = ''
     conf = []
 
-    def __init__(self, conf, sender):
+    def __init__(self, conf, sender, templating):
+        self.templating = templating
         self.conf = conf
         self.sender = sender.SMTP(
             self.conf.get('smtp', 'host'),
@@ -27,11 +29,11 @@ class SenderMail:
         self.address = address
         return self
 
-    def send_all(self, subject='Re:', delay=True):
+    def send_all(self, tpl, data='', subject='Re:', delay=True):
         for item in self.address:
-            self.send_one(item, subject, delay)
+            self.send_one(item, tpl, data, subject, delay)
 
-    def send_one(self, email, subject='Re:', delay=True):
+    def send_one(self, email, tpl, data='', subject='Re:', delay=True):
         try:
             self.sender.sendmail(
                 self.conf.get('smtp', 'from'),
@@ -41,7 +43,7 @@ class SenderMail:
                     "To: %s" % email,
                     "Subject: %s" % subject,
                     "",
-                    "Python test PyMassMailer"
+                    self.templating.render(tpl, data)
                 ))
             )
 
