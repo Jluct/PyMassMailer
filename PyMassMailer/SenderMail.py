@@ -1,4 +1,5 @@
 import time
+import quopri
 from smtplib import SMTPDataError
 
 
@@ -35,20 +36,20 @@ class SenderMail:
 
     def send_one(self, email, tpl, data='', subject='Re:', delay=True):
         try:
-            if self.conf.get('smtp', 'from'):
-                from_address = self.conf.get('smtp', 'from') + " <" + self.conf.get('smtp', 'addr') + ">"
-            else:
-                from_address = self.conf.get('smtp', 'addr')
+            template = quopri.encodestring(self.templating.render(tpl, data).encode())
+            print(template)
 
             self.sender.sendmail(
                 self.conf.get('smtp', 'addr'),
                 [email],
                 "\r\n".join((
-                    "From: %s" % from_address,
+                    "From: %s" % self._merge_sender_addr(),
                     "To: %s" % email,
                     "Subject: %s" % subject,
+                    "MIME-Version: 1.0",
+                    "Content-Type: text/plain; charset=utf-8 Content-Transfer-Encoding: quoted-printable",
                     "",
-                    self.templating.render(tpl, data)
+                    template.decode('utf-8')
                 ))
             )
 
@@ -59,5 +60,11 @@ class SenderMail:
             print("Mail not send")
         except SMTPDataError:
             print('SPAM DETECTED')
+        else:
+            return True
 
-        return True
+    def _merge_sender_addr(self):
+        if self.conf.get('smtp', 'from'):
+            return self.conf.get('smtp', 'from') + " <" + self.conf.get('smtp', 'addr') + ">"
+        else:
+            return self.conf.get('smtp', 'addr')

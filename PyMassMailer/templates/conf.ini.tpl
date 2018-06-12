@@ -1,5 +1,6 @@
 [smtp]
-from={{name}}
+addr={{sender address}}
+from={{sender name}}
 host={{email host}}
 port=25
 login={{login, if need auth for host}}

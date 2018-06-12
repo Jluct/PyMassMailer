@@ -12,7 +12,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Topic :: Text Processing :: Linguistic',
     ],
-    keywords='mail, sender',
+    keywords='mail, sender, smtp',
     url='https://github.com/Jluct/PyMassMailer',
     author='Listopadov Serj',
     author_email='panaev02@gmail.com',

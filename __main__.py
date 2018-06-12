@@ -19,8 +19,9 @@ if __name__ == "__main__":
 
     view = open(
         path.normpath('templates/test.html'),
-        'rb'
-    ).read().decode('ascii', 'backslashreplace')
+        'r',
+        encoding='UTF-8'
+    ).read()
 
     # print(view)
 

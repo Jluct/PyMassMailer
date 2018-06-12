@@ -1,5 +1,3 @@
-import quopri
-
 
 class TemplateEngine:
     engine = ''
@@ -9,4 +7,4 @@ class TemplateEngine:
 
     def render(self, tpl, data=None):
         template = self.engine(tpl)
-        return quopri.decodestring(template.render(**data)).decode('ascii')
+        return template.render(**data)
