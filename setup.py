@@ -21,7 +21,7 @@ setup(
     install_requires=[
         'Jinja2==2.10',
         'ConfigParser==3.5',
-        'smtplib==8.8.4'
+        'smtplib==3.3'
     ],
     include_package_data=True,
     zip_safe=False

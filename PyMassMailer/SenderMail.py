@@ -36,7 +36,7 @@ class SenderMail:
     def send_one(self, email, tpl, data='', subject='Re:', delay=True):
         try:
             self.sender.sendmail(
-                self.conf.get('smtp', 'from'),
+                self.conf.get('smtp', 'addr'),
                 [email],
                 "\r\n".join((
                     "From: %s" % self.conf.get('smtp', 'from'),

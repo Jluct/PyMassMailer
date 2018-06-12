@@ -3,6 +3,7 @@
 
 from os import path
 import smtplib
+import quopri
 from jinja2 import Template
 from PyMassMailer.ConfigData import ConfigData
 from PyMassMailer.SenderMail import SenderMail
@@ -15,10 +16,16 @@ if __name__ == "__main__":
     address = data_parser.getData()
     engine = TemplateEngine(Template)
     sender = SenderMail(conf, smtplib, engine)
+
+    view = open(
+        path.normpath('templates/test.html'),
+        'rb'
+    ).read().decode('ascii', 'backslashreplace')
+
+    print(view)
+
     sender.set_address(address).send_all(
-        open(
-            path.normpath('templates/test.html'),
-            'r',
-            encoding='utf-8'
-        ).read().encode('ascii', 'ignore')
+        view,
+        {},
+        'test'
     )
