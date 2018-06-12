@@ -35,11 +35,16 @@ class SenderMail:
 
     def send_one(self, email, tpl, data='', subject='Re:', delay=True):
         try:
+            if self.conf.get('smtp', 'from'):
+                from_address = self.conf.get('smtp', 'from') + " <" + self.conf.get('smtp', 'addr') + ">"
+            else:
+                from_address = self.conf.get('smtp', 'addr')
+
             self.sender.sendmail(
                 self.conf.get('smtp', 'addr'),
                 [email],
                 "\r\n".join((
-                    "From: %s" % self.conf.get('smtp', 'from'),
+                    "From: %s" % from_address,
                     "To: %s" % email,
                     "Subject: %s" % subject,
                     "",

@@ -22,7 +22,7 @@ if __name__ == "__main__":
         'rb'
     ).read().decode('ascii', 'backslashreplace')
 
-    print(view)
+    # print(view)
 
     sender.set_address(address).send_all(
         view,
